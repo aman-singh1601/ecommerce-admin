@@ -55,9 +55,14 @@ export const BillboardFrom:React.FC<BillboardFromProps> =({
     const onSubmit=async (data:BillboardFromValues)=>{
         try{
             setLoading(true);
-            await axios.patch(`/api/stores/${params.storeId}`,data);
+            if(initialData){
+            await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`,data);
+            }else{
+                 await axios.post(`/api/${params.storeId}/billboards`,data);
+            }
             router.refresh();
-            toast.success("Store Updated")
+            router.push(`/${params.storeId}/billboards`)
+            toast.success(toastMeaasge)
         }catch(error){
            toast.error("Someting went wrong!") 
         }finally{
@@ -66,14 +71,14 @@ export const BillboardFrom:React.FC<BillboardFromProps> =({
     }
     const onDelete =async ()=>{
         try{
-            setLoading(true)
-            await axios.delete(`/api/stores/${params.storeId}`)
+            setLoading(true) 
+            await axios.delete(`/api/stores/${params.storeId}/billboards/${params.billboardId}`)
             router.refresh();
             router.push('/')
             toast.success("Store Deleted")
 
         }catch(err){
-            toast.error("Make sure you removed all products and categories first.")
+            toast.error("Make sure you removed all categories first using this billboard first")
         }finally{
             setLoading(false)
             setOpen(false)
