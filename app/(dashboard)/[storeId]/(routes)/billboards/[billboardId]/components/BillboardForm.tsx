@@ -69,10 +69,10 @@ export const BillboardFrom:React.FC<BillboardFromProps> =({
     const onDelete =async ()=>{
         try{
             setLoading(true) 
-            await axios.delete(`/api/stores/${params.storeId}/billboards/${params.billboardId}`)
+            await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`)
             router.refresh();
-            router.push('/')
-            toast.success("Store Deleted")
+            router.push(`/${params.storeId}/billboards`)
+            toast.success("Billboard Deleted")
 
         }catch(err){
             toast.error("Make sure you removed all categories first using this billboard first")
@@ -149,7 +149,7 @@ export const BillboardFrom:React.FC<BillboardFromProps> =({
                     <Button disabled={loading} className='ml-auto' type='submit'>{action}</Button>
                 </form>
             </Form>
-            <Separator/>
+           
             
         </>
     )
