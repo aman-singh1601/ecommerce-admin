@@ -44,7 +44,7 @@ export const CategoryForm:React.FC<CategoryFormProps> =({
     const title=initialData? "Edit category": "Create category"
     const description=initialData? "Edit a category": "Add a new category"
     const toastMeaasge=initialData? "Category Updated": "Category created"
-    const action=initialData? "Save change": "Create"
+    const action=initialData? "Save changes": "Create"
 
     const form=useForm<CategoryFormValues>({
         resolver:zodResolver(formSchema),
@@ -55,12 +55,12 @@ export const CategoryForm:React.FC<CategoryFormProps> =({
         try{
             setLoading(true);
             if(initialData){
-            await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`,data);
+                 await axios.patch(`/api/${params.storeId}/categories/${params.categoryId}`,data);
             }else{
-                 await axios.post(`/api/${params.storeId}/billboards`,data);
+                 await axios.post(`/api/${params.storeId}/categories`,data);
             }
             router.refresh();
-            router.push(`/${params.storeId}/billboards`)
+            router.push(`/${params.storeId}/categories`)
             toast.success(toastMeaasge)
         }catch(error){
            toast.error("Someting went wrong!") 
@@ -71,13 +71,13 @@ export const CategoryForm:React.FC<CategoryFormProps> =({
     const onDelete =async ()=>{
         try{
             setLoading(true) 
-            await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`)
+            await axios.delete(`/api/${params.storeId}/categories/${params.categoryId}`)
             router.refresh();
-            router.push(`/${params.storeId}/billboards`)
-            toast.success("Billboard Deleted")
+            router.push(`/${params.storeId}/categories`)
+            toast.success("Category Deleted")
 
         }catch(err){
-            toast.error("Make sure you removed all categories first using this billboard first")
+            toast.error("Make sure you removed all products using this category first")
         }finally{
             setLoading(false)
             setOpen(false)
